@@ -1,13 +1,15 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-angular.module('myApp', [
+angular.module('expenseTrak', [
   'ngRoute',
-  'myApp.view1',
-  'myApp.view2'
+  'expenseTrak.addExpense',
+  'expenseTrak.allExpenses',
+  // 'user.signUp',
+  // 'user.logIn'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
   $locationProvider.hashPrefix('!');
 
-  $routeProvider.otherwise({redirectTo: '/view1'});
+  $routeProvider.otherwise({redirectTo: '/addExpense'});
 }]);
