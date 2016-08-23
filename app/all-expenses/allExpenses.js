@@ -4,7 +4,7 @@ angular.module('expenseTrak.allExpenses', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/allExpenses', {
-    templateUrl: 'allExpenses/allExpenses.html',
+    templateUrl: 'all-expenses/allExpenses.html',
     controller: 'AllExpensesCtrl'
   });
 }])
