@@ -7,9 +7,15 @@ angular.module('expenseTrak', [
   'expenseTrak.allExpenses',
   // 'user.signUp',
   // 'user.logIn'
-]).
-config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
+])
+.config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
   $locationProvider.hashPrefix('!');
 
   $routeProvider.otherwise({redirectTo: '/addExpense'});
+}])
+.controller('MainCtrl', ['$scope', function($scope) {
+  $scope.logout = function() {
+    console.log("logged out");
+  }
+
 }]);

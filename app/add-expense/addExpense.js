@@ -8,7 +8,10 @@ angular.module('expenseTrak.addExpense', ['ngRoute'])
     controller: 'AddExpenseCtrl'
   });
 }])
+.controller('AddExpenseCtrl', ['$scope', function($scope) {
 
-.controller('AddExpenseCtrl', [function() {
+  $scope.addFormSubmit = function() {
+    $scope.msg = "Item Added";
+  }
 
 }]);
