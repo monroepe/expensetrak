@@ -3,11 +3,28 @@
 angular.module('expenseTrak.addExpense', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/addExpense', {
-    templateUrl: 'add-expense/addExpense.html',
-    controller: 'AddExpenseCtrl'
-  });
+  var requireAuthentication = function () {
+    return {
+        load: function ($q, $location) {
+            var deferred = $q.defer();
+            deferred.resolve();
+            if (firebase.auth().currentUser !== null) {
+                return deferred.promise;
+            } else {
+                $location.path('/login');
+            }
+        }
+    };
+  };
+
+  $routeProvider
+    .when('/addExpense', {
+        templateUrl: 'add-expense/addExpense.html',
+        controller: 'AddExpenseCtrl',
+        resolve: requireAuthentication()
+    })
 }])
+
 .controller('AddExpenseCtrl', ['$scope', function($scope) {
   $scope.categories = [
         { id: 1, name: 'Groceries' },
@@ -31,8 +48,7 @@ angular.module('expenseTrak.addExpense', ['ngRoute'])
 
 
   $scope.addFormSubmit = function() {
-
-    $scope.msg = "Item Added";
+    $scope.msg = 'Item Added';
   }
 
 }]);

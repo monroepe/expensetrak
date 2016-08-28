@@ -1,12 +1,11 @@
 'use strict';
 
-// Declare app level module which depends on views, and components
 angular.module('expenseTrak', [
   'ngRoute',
   'expenseTrak.addExpense',
   'expenseTrak.allExpenses',
-  // 'user.signUp',
-  // 'user.logIn'
+  'expenseTrak.signUp',
+  'expenseTrak.logIn'
 ])
 .config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
   $locationProvider.hashPrefix('!');
@@ -14,8 +13,14 @@ angular.module('expenseTrak', [
   $routeProvider.otherwise({redirectTo: '/addExpense'});
 }])
 .controller('MainCtrl', ['$scope', function($scope) {
+
   $scope.logout = function() {
-    console.log("logged out");
+    firebase.auth().signOut().then(function() {
+    console.log('logged out');
+  }, function(error) {
+    console.log(error);
+  });
+
   }
 
 }]);
