@@ -5,23 +5,23 @@ angular.module('expenseTrak.addExpense', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider) {
   var requireAuthentication = function () {
     return {
-        load: function ($q, $location) {
-            var deferred = $q.defer();
-            deferred.resolve();
-            if (firebase.auth().currentUser !== null) {
-                return deferred.promise;
-            } else {
-                $location.path('/login');
-            }
+      load: function ($q, $location) {
+        var deferred = $q.defer();
+        deferred.resolve();
+        if (firebase.auth().currentUser !== null) {
+            return deferred.promise;
+        } else {
+            $location.path('/login');
         }
+      }
     };
   };
 
   $routeProvider
     .when('/addExpense', {
-        templateUrl: 'add-expense/addExpense.html',
-        controller: 'AddExpenseCtrl',
-        resolve: requireAuthentication()
+      templateUrl: 'add-expense/addExpense.html',
+      controller: 'AddExpenseCtrl',
+      resolve: requireAuthentication()
     })
 }])
 
@@ -44,11 +44,25 @@ angular.module('expenseTrak.addExpense', ['ngRoute'])
         { id: 15, name: 'Other/Misc' }
     ];
 
-    $scope.selectedCategory = null;
+  $scope.selectedCategory = null;
+  $scope.msg = null;
 
-
-  $scope.addFormSubmit = function() {
+  $scope.addExpense = function() {
+    var userId = firebase.auth().currentUser.uid;
+    var date = new Date();
+    var month = date.getMonth() + 1;
+    var year = date.getFullYear();
+    firebase.database().ref('expenses/' + userId + '/' + year + '/' + month).set({
+      amount: $scope.amount,
+      category: $scope.selectedCategory
+    });
     $scope.msg = 'Item Added';
+    clearFields();
+  }
+
+  function clearFields(){
+    $scope.amount = '';
+    $scope.selectedCategory = '';
   }
 
 }]);

@@ -1,29 +1,27 @@
 <div class="row" ng-controller="AddExpenseCtrl">
   <div class="col-lg-12">
-    <div data-alert ng-show="msg" class="alert alert-success">{{msg}}</div>
-
-    <!-- Add item to list-->
-    <form ng-submit="addFormSubmit()">
-      <h3>Add Expense</h3>
-      <div class="row">
-        <div class="col-md-2">
-          <label>Amount:</label>
-            <input type="number" ng-model="name" placeholder="Amount" required />
+    <div ng-show="msg" class="alert alert-success">{{ msg }}</div>
+      <form ng-submit="addExpense()">
+        <h3>Add Expense</h3>
+        <div class="row">
+          <div class="col-md-2">
+            <label>Amount:</label>
+              <input type="number" ng-model="amount" placeholder="Amount" required />
+          </div>
+          <div class="col-md-2">
+            <label>Category:</label>
+            <select ng-model="selectedCategory" class="form-control" required>
+              <option value="">- Please Choose -</option>
+              <option ng-repeat="cat in categories" value="{{cat.name}}">{{cat.name}}</option>
+            </select>
+          </div>
         </div>
-        <div class="col-md-2">
-          <label>Category:</label>
-          <select ng-model="selectedCategory" class="form-control">
-            <option value="">- Please Choose -</option>
-            <option ng-repeat="cat in categories" value="{{cat.id}}">{{cat.name}}</option>
-          </select>
+        <div class="row">
+          <div class="col-md-12">
+            <input type="submit" value="Submit" class="btn btn-primary" />
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <input type="submit" value="Submit" class="btn btn-primary" />
-        </div>
-      </div>
-    </form>
+      </form>
     </div>
   </div>
 </div>
