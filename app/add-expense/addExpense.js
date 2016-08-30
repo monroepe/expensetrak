@@ -52,10 +52,17 @@ angular.module('expenseTrak.addExpense', ['ngRoute'])
     var date = new Date();
     var month = date.getMonth() + 1;
     var year = date.getFullYear();
-    firebase.database().ref('expenses/' + userId + '/' + year + '/' + month).set({
+    var postData = {
       amount: $scope.amount,
       category: $scope.selectedCategory
-    });
+    };
+
+    var newPostKey = firebase.database().ref().child('expenses').push().key;
+
+    var updates = {};
+    updates['expenses/' + userId + '/' + year + '/' + month + '/' + newPostKey] = postData;
+
+    firebase.database().ref().update(updates);
     $scope.msg = 'Item Added';
     clearFields();
   }
