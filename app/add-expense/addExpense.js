@@ -29,7 +29,7 @@ angular.module('expenseTrak.addExpense', ['ngRoute'])
   $scope.categories = [
         { id: 1, name: 'Groceries' },
         { id: 2, name: 'Recreation' },
-        { id: 3, name: 'Target/Walmart/IKEA' },
+        { id: 3, name: 'Target-Walmart-IKEA' },
         { id: 4, name: 'Amazon' },
         { id: 5, name: 'Rent' },
         { id: 6, name: 'Gas' },
@@ -52,17 +52,19 @@ angular.module('expenseTrak.addExpense', ['ngRoute'])
     var date = new Date();
     var month = date.getMonth() + 1;
     var year = date.getFullYear();
-    var postData = {
-      amount: $scope.amount,
-      category: $scope.selectedCategory
-    };
+    var amount = $scope.amount;
+    var category = $scope.selectedCategory;
 
-    var newPostKey = firebase.database().ref().child('expenses').push().key;
+    firebase.database().ref('expenses/' + userId + '/' + year + '/' + month + '/' + category).once('value').then(function(snapshot) {
+      if(snapshot.val()) {
+        amount += snapshot.val().amount;
+      }
+      var postData = {
+        amount: amount
+      };
+      firebase.database().ref('expenses/' + userId + '/' + year + '/' + month + '/' + category).set(postData);
+    });
 
-    var updates = {};
-    updates['expenses/' + userId + '/' + year + '/' + month + '/' + newPostKey] = postData;
-
-    firebase.database().ref().update(updates);
     $scope.msg = 'Item Added';
     clearFields();
   }

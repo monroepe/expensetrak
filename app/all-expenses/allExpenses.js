@@ -9,6 +9,6 @@ angular.module('expenseTrak.allExpenses', ['ngRoute'])
   });
 }])
 
-.controller('AllExpensesCtrl', [function() {
+.controller('AllExpensesCtrl', ['$scope', function($scope) {
 
 }]);
