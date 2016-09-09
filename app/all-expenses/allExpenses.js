@@ -28,7 +28,12 @@ angular.module('expenseTrak.allExpenses', ['ngRoute'])
         'Lunch - Peter',
         'Other/Misc'
     ];
-  $scope.expenses = getCurrentMonthExpenses();
+  getCurrentMonthExpenses();
+  setTimeout(function() {
+    $scope.$apply(function() {
+     $scope.ready = true;
+    });
+  }, 1000);
 
   function getCurrentMonthExpenses() {
     var userId = firebase.auth().currentUser.uid;
@@ -43,16 +48,18 @@ angular.module('expenseTrak.allExpenses', ['ngRoute'])
         expenses = snapshot.val();
       }
       var amount;
+      var total = 0;
       $scope.categories.forEach(function(category) {
         if(expenses[category]) {
           amount = expenses[category].amount;
+          total += amount;
         } else {
           amount = 0;
         }
         monthExpenses.push({ category: category, amount: amount})
       });
-      $scope.ready = true;
-      return monthExpenses;
+      monthExpenses.push({ category: 'Total', amount: total})
+      $scope.expenses = monthExpenses;
     });
   }
 }]);
